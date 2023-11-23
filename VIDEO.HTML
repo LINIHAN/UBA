@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>影片輪播器</title>
+</head>
+<body>
+
+<div style="text-align: center;">
+    <video id="videoPlayer" width="800" height="600" controls autoplay>
+        <source src="1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <button onclick="playVideo(1)">播放1</button>
+    <button onclick="playVideo(2)">播放2</button>
+    <button onclick="playVideo(3)">播放3</button>
+
+    <br>
+
+    <button onclick="togglePlayPause()" style="background-color: #3498db; color: white;">播放</button>
+    <button onclick="toggleMute()" style="background-color: #f39c12; color: white;">靜音</button>
+</div>
+
+<script>
+    const videoPlayer = document.getElementById('videoPlayer');
+    const videoSources = ['1.mp4', '2.mp4', '3.mp4'];
+
+    let currentSourceIndex = 0;
+
+    function playVideo(index) {
+        if (index >= 1 && index <= videoSources.length) {
+            currentSourceIndex = index - 1;
+            videoPlayer.src = videoSources[currentSourceIndex];
+            videoPlayer.load();
+            videoPlayer.play();
+        }
+    }
+
+    function togglePlayPause() {
+        if (videoPlayer.paused) {
+            videoPlayer.play();
+        } else {
+            videoPlayer.pause();
+        }
+    }
+
+    function toggleMute() {
+        videoPlayer.muted = !videoPlayer.muted;
+    }
+
+    videoPlayer.addEventListener('ended', function () {
+        currentSourceIndex = (currentSourceIndex + 1) % videoSources.length;
+        videoPlayer.src = videoSources[currentSourceIndex];
+        videoPlayer.load();
+        videoPlayer.play();
+    });
+</script>
+
+</body>
+</html>
